@@ -1,0 +1,75 @@
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+<script type='text/javascript'>
+//import * as tf from '@tensorflow/tfjs';
+var model;
+
+async function genBullets(startStr, numGenerate){
+    model = await tf.loadLayersModel('/bullets-model-lstm/model.json');
+    //console.log(model)
+
+    //numGenerate = 1000
+    char2idx = {"\n": 0, " ": 1, "!": 2, "#": 3, "$": 4, "%": 5, "&": 6, "\'": 7, "(": 8, ")": 9, "+": 10, ",": 11, "-": 12, ".": 13, "/": 14, "0": 15, "1": 16, "2": 17, "3": 18, "4": 19, "5": 20, "6": 21, "7": 22, "8": 23, "9": 24, ";": 25, "A": 26, "B": 27, "C": 28, "D": 29, "E": 30, "F": 31, "G": 32, "H": 33, "I": 34, "J": 35, "K": 36, "L": 37, "M": 38, "N": 39, "O": 40, "P": 41, "Q": 42, "R": 43, "S": 44, "T": 45, "U": 46, "V": 47, "W": 48, "X": 49, "Y": 50, "a": 51, "b": 52, "c": 53, "d": 54, "e": 55, "f": 56, "g": 57, "h": 58, "i": 59, "j": 60, "k": 61, "l": 62, "m": 63, "n": 64, "o": 65, "p": 66, "q": 67, "r": 68, "s": 69, "t": 70, "u": 71, "v": 72, "w": 73, "x": 74, "y": 75, "z": 76, "\u2009": 77, "\u2019": 78};
+    idx2char = ["\n", " ", "!", "#", "$", "%", "&", "\'", "(", ")", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ";", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "\u2009", "\u2019"];
+    // Converting our start string to numbers (vectorizing)
+    
+    inputEval = startStr.split('').map(function(c){return char2idx[c];});
+    inputEval = tf.expandDims(inputEval, 0);
+
+    var txtGenerated = '';
+    var temperature = 1.0;
+
+    // Here batch size == 1
+    model.resetStates();
+    var predictions = ''
+    for(var i = 0; i < numGenerate ; i++){
+        //print(input_eval)
+        predictions = model.predict(inputEval);
+        // remove the batch dimension
+        predictions = tf.squeeze(predictions, 0);
+
+        //console.log(predictions)
+        //predictedId = tf.multinomial(predictions, 1)[-1,0].numpy()
+        //console.log(predictions.arraySync())
+        //console.log(tf.multinomial(predictions, 1).arraySync())
+        predictedId = tf.multinomial(predictions, 1).slice(0,1);
+
+        // We pass the predicted word as the next input to the model
+        // along with the previous hidden state
+        inputEval = predictedId
+        
+        predictedIdInt = predictedId.arraySync()[0][0];
+        txtGenerated += idx2char[predictedIdInt];
+    }
+    console.log(startStr + txtGenerated)
+    
+    return (startStr + txtGenerated)
+    
+
+}
+//main('- Led ')
+//const prediction = model.predict(['a']);
+function runModel(){
+    var seed = document.getElementById('seed').value;
+    var numGen = parseInt(document.getElementById('numGen').value);
+    document.getElementById('generatedBullets').innerText = 'loading... please wait'
+    genBullets(seed,numGen).then(function(words){
+        document.getElementById('generatedBullets').innerText = words;
+    });
+}
+</script>
+</head>
+<body>
+    <div>
+        <form action='#' onsubmit="runModel()">
+            <label>Choose how many characters to generate: </label><input id='numGen' type="number" value=1000> <br/>
+            <label>Input start of bullet here: </label><input type='text' id='seed' value="- Led ">
+            <input type="submit" id='goBtn' value="Generate!">
+        </form>
+        <p id='generatedBullets'>
+
+        </p>
+    </div>
+</body>
+</html>
