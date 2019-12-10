@@ -39,7 +39,7 @@ async function genBullets(startStr, numGenerate){
         // along with the previous hidden state
         inputEval = predictedId
         
-        predictedIdInt = predictedId.arraySync()[0][0];
+        predictedIdInt = await predictedId.array()[0][0];
         txtGenerated += idx2char[predictedIdInt];
     }
     console.log(startStr + txtGenerated)
