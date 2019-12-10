@@ -57,7 +57,8 @@ async function genBullets(startStr, numGenerate, updateFcn){
 }
 //main('- Led ')
 //const prediction = model.predict(['a']);
-function runModel(){
+function runModel(e){
+    e.preventDefault();
     var seed = document.getElementById('seed').value;
     var numGen = parseInt(document.getElementById('numGen').value);
     document.getElementById('loadingMsg').innerText = 'loading... please wait'
