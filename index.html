@@ -6,7 +6,7 @@
 var model;
 
 async function genBullets(startStr, numGenerate){
-    model = await tf.loadLayersModel('/bullets-model-lstm/model.json');
+    model = await tf.loadLayersModel('./bullets-model-lstm/model.json');
     //console.log(model)
 
     //numGenerate = 1000
