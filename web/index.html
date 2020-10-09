@@ -121,7 +121,7 @@ function runModel(e){
     const mode = document.getElementById('modeSelect').selectedIndex;
     const temp = parseInt(document.getElementById('temp').value) / 100;
     document.getElementById('loadingMsg').innerText = 'loading... please wait';
-
+    document.getElementById('generatedBullets').className = 'has-text-grey-light' ;
     const params = {
         seed: seed,
         lines: numGen,
@@ -131,10 +131,12 @@ function runModel(e){
     }
 
     genBullets(params).then(function(){
-        document.getElementById('loadingMsg').innerText = 'Complete!'
+        document.getElementById('loadingMsg').innerText = 'Complete!';
+        document.getElementById('generatedBullets').className = '' ;
     });
 }
 function updatePara(text){
+    document.getElementById('generatedBullets').className = '' ;
     document.getElementById('generatedBullets').innerText = text;
 }
 window.onload=function(){
@@ -161,23 +163,26 @@ window.onload=function(){
                             <div class="control">
                                 <input class="input" id='numGen' type="number" value=5 max=10> 
                             </div>
+                            <p class="help">Enable hardware acceleration on browser for faster results</p>
                         </div>
                         <div class="column is-2 field">
                             <label class="label">Spiciness </label>
                             <div class="control">
                                 <input class="input" id='temp' type="number" value=50 max=100 min=1> 
                             </div>
+                            <p class='help'>Bullet unpredictability (1-100)</p>
                         </div>
-                        <div class="column is-2 field">
+                        <div class="column is-3 field">
                             <label class="label">Output Type</label>
                             <div class="control">
-                            <div class="select">
-                                <select id="modeSelect">
-                                <option>Free Run</option>
-                                <option>Same Beginning</option>
-                                </select>
+                                <div class="select">
+                                    <select id="modeSelect">
+                                    <option>Free Run</option>
+                                    <option>Same Beginning</option>
+                                    </select>
+                                </div>
                             </div>
-                            </div>
+                            <p class='help'>Same Beginning: primer is treated as prefix</p>
                         </div>
 
                     </div>
