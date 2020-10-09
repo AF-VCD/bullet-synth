@@ -3,7 +3,7 @@
 
 # python tf_to_tfjs.py -i  .\bullets-lstm.h5 -o  ./tfjs
 
-import tensorflowjs as tfjs
+import tensorflowjs as tfjs 
 import tensorflow as tf
 
 def loss(labels, logits):
