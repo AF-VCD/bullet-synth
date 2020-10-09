@@ -71,7 +71,7 @@ async function genBullets(params){
     const temperature = params.temperature;
     const modelNum = params.modelNum+1;
 
-    const model = await loadModel('../models/run-' + modelNum + '/tfjs/model.json');
+    const model = await loadModel('./models/run-' + modelNum + '/tfjs/model.json');
     let allLines = '';
     //const primer = '- Spearheaded groundbreaking evaluation tool; optimized 500K+ EPR/OPR bullets--achieved $250M in time savings across AF' + '\n';
     //const primer = '';
