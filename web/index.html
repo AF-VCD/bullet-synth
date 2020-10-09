@@ -69,8 +69,9 @@ async function genBullets(params){
     const updateFcn = params.updater;
     const mode = params.mode;
     const temperature = params.temperature;
+    const modelNum = params.modelNum+1;
 
-    const model = await loadModel('../models/run-4/tfjs/model.json');
+    const model = await loadModel('../models/run-' + modelNum + '/tfjs/model.json');
     let allLines = '';
     //const primer = '- Spearheaded groundbreaking evaluation tool; optimized 500K+ EPR/OPR bullets--achieved $250M in time savings across AF' + '\n';
     //const primer = '';
@@ -119,6 +120,7 @@ function runModel(e){
     const seed = document.getElementById('seed').value;
     const numGen = parseInt(document.getElementById('numGen').value);
     const mode = document.getElementById('modeSelect').selectedIndex;
+    const modelNum = document.getElementById('modelSelect').selectedIndex;
     const temp = parseInt(document.getElementById('temp').value) / 100;
     document.getElementById('loadingMsg').innerText = 'loading... please wait';
     document.getElementById('generatedBullets').className = 'has-text-grey-light' ;
@@ -128,6 +130,7 @@ function runModel(e){
         updater: updatePara,
         mode: mode,
         temperature: temp,
+        modelNum: modelNum
     }
 
     genBullets(params).then(function(){
@@ -172,6 +175,19 @@ window.onload=function(){
                             </div>
                             <p class='help'>Bullet unpredictability (1-100)</p>
                         </div>
+                        <div class="column is-2 field">
+                            <label class="label">Model Selection</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select id="modelSelect">
+                                    <option>Model 1</option>
+                                    <option>Model 2</option>
+                                    <option>Model 3</option>
+                                    <option>Model 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="column is-3 field">
                             <label class="label">Output Type</label>
                             <div class="control">
@@ -182,8 +198,10 @@ window.onload=function(){
                                     </select>
                                 </div>
                             </div>
+                            <p class='help'>Free Run: primer initializes output</p>
                             <p class='help'>Same Beginning: primer is treated as prefix</p>
                         </div>
+
 
                     </div>
                     <div class="field">
