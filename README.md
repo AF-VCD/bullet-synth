@@ -10,7 +10,7 @@ This is an interesting problem for a computer to solve, due to the fact that bul
 ## Training Dataset
 
 The machine learning model was trained using bullets (mostly EPR) that were found online. A simple web scraper was built to collect all these bullets, which were then
- stored in a flat text file. A link to the web scraper will be placed here once I upload the web scraper to github. The scraper
+ stored in a flat text file. [Here](https://github.com/AF-VCD/bullet-scraper) is a link to the web scraper source code. The scraper
  is written in Python, with an additional Perl script to organize the data into one big text file. Over 40,000 bullets were collected using the web scraper. 
 
 ## Training Method
