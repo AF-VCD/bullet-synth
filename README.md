@@ -1,5 +1,7 @@
 # Incoherent Bullet Synthesizer (IBS)
 
+[Link to IBS Website](https://af-vcd.github.io/bullet-synth/)
+
 The goal of this project is to produce "real"-sounding Air Force performance bullet statements using a machine learning model. 
 
 This is an interesting problem for a computer to solve, due to the fact that bullet "best practices" are almost completely arbitrary,
